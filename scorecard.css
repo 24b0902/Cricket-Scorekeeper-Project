@@ -1,0 +1,93 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to bottom right, #c2e9fb, #81a4fd); 
+  min-height: 100vh;
+  color: #333;
+  text-align: center;
+  padding: 20px;
+}
+
+h2, h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #003366;
+}
+
+h2::before {
+  content: "🏏 ";
+}
+
+h2::after {
+  content: " 🏆";
+}
+
+h3::before {
+  content: "📋 ";
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 15px 0;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+table {
+  width: 90%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  background-color: white;
+  color: #333;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: center;
+}
+
+thead {
+  background-color: #004aad;
+  color: white;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+  background-color: #e1f0ff;
+}
+
+#battingScorecard::before {
+  content: "🏏 Batter Stats";
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 18px;
+  color: #004aad;
+}
+
+#bowlingScorecard::before {
+  content: "🎯 Bowler Stats";
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 18px;
+  color: #004aad;
+}
+
+

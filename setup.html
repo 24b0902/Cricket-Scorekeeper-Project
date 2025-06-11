@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Setup Match</title>
+  <link rel="stylesheet" href="setup.css">
+</head>
+<body>
+  <h2>Match Setup</h2>
+  <form id="setupForm">
+    <label>Team 1 Name: <input type="text" id="team1" required /></label><br><br>
+    <label>Team 2 Name: <input type="text" id="team2" required /></label><br><br>
+    
+    <label>Toss Winner:
+      <select id="tossWinner">
+        <option value="team1">Team 1</option>
+        <option value="team2">Team 2</option>
+      </select>
+    </label><br><br>
+    
+    <label>Toss Decision:
+      <select id="tossDecision">
+        <option value="bat">Bat</option>
+        <option value="bowl">Bowl</option>
+      </select>
+    </label><br><br>
+
+    <label>Overs per Innings:
+      <input type="number" id="oversPerInnings" min="1" value="2" required />
+    </label><br><br>
+
+    <button type="submit" id="startMatchBtn">Start Match</button>
+  </form>
+
+  <script src="score.js"></script>
+  <script>
+    document.getElementById("setupForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const team1 = document.getElementById("team1").value.trim();
+      const team2 = document.getElementById("team2").value.trim();
+
+      if (team1 == team2) {
+        alert("Team names must be different!");
+        return;
+      }
+
+      const tossWinnerValue = document.getElementById("tossWinner").value;
+      const tossDecision = document.getElementById("tossDecision").value;
+      const oversPerInnings = parseInt(document.getElementById("oversPerInnings").value, 10);
+      const tossWinner = tossWinnerValue == "team1" ? team1 : team2;
+      const tossLoser = tossWinnerValue == "team1" ? team2 : team1;
+      const battingFirst = tossDecision == "bat" ? tossWinner : tossLoser;
+      const bowlingFirst = tossDecision != "bat" ? tossWinner : tossLoser;
+
+      const matchDetails = {
+        team1,
+        team2,
+        tossWinner,
+        tossDecision,
+        battingFirst,
+        bowlingFirst,
+        oversPerInnings,
+        currentInnings: 1,
+        innings: [{}, {}]
+      };
+
+      localStorage.setItem("matchDetails", JSON.stringify(matchDetails));
+      collect_names(); 
+      window.location.href = "live.html"; 
+    });
+  </script>
+</body>
+</html>

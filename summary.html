@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Match Summary</title>
+  <link rel="stylesheet" href="summary.css" />
+</head>
+<body>
+  <body>
+    <div class="content-box">
+      <h2>Match Result</h2>
+      <div id="resultText" class="win"></div>
+      <button onclick="reset_match()">Reset Match</button>
+    </div>
+  </body>
+  
+
+
+  <script>
+
+    const data = JSON.parse(localStorage.getItem("matchDetails"));
+    const resultText = document.getElementById("resultText");
+
+    if (!data) {
+      resultText.textContent = "No match data found.";
+    } else {
+      const team1 = data.team1;
+      const team2 = data.team2;
+      const battingFirst= data.battingFirst;
+      const chasingTeam = (battingFirst === team1 ? team2 : team1);
+
+      const firstInningsScore = data.innings[0].totalRuns || 0;
+      const secondInningsScore = data.innings[1].totalRuns || 0;
+      const secondInningsWickets = data.innings[1].totalRunsWickets || 0;
+      const ballsUsed = data.innings[1].ballsBowled || 0;
+      const ballsLeft = 12 - ballsUsed;
+      const target = data.target || 0;
+
+      if (secondInningsScore >= target) {
+        const wicketsRemaining = 10 - secondInningsWickets;
+        resultText.textContent = `${battingFirst} wins by ${wicketsRemaining} wickets with ${ballsLeft} balls left (Target reached)!`;
+      } else if (secondInningsScore < target-1) {
+        const margin = target - secondInningsScore - 1;
+        resultText.textContent = `${chasingTeam} wins by ${margin} runs!`;
+      } else {
+        resultText.textContent = "Match tied!";
+      }
+    }
+
+    function reset_match() {
+      localStorage.clear();
+      window.location.href = "setup.html";
+    }
+  </script>
+
+</body>
+</html>

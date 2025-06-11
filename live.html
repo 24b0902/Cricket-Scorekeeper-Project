@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Live Match</title>
+  <link rel="stylesheet" href="live.css" />
+</head>
+<body>
+
+  <h2 id="overallScore"></h2>
+  <h3 id="inningsStatus"></h3>
+  <div id="targetDisplay" class="match-info"></div>
+  <div id="battersOnField">
+    <h4>Strike Batter</h4>
+    <div id="strikeBatterStats"></div>
+    <h4>Non-Strike Batter</h4>
+    <div id="nonStrikeBatterStats"></div>
+  </div>
+  <div id="currentBowlerStats"></div>
+  <h4 id="crr"></h4>
+
+  <div id="scoreButtons">
+    <button onclick="score_runs(0)">0</button>
+    <button onclick="score_runs(1)">1</button>
+    <button onclick="score_runs(2)">2</button>
+    <button onclick="score_runs(3)">3</button>
+    <button onclick="score_runs(4)">4</button>
+    <button onclick="score_runs(6)">6</button>
+    <button onclick="wicket()">Wicket</button>
+    <button onclick="wide_ball()">Wide</button>
+    <button onclick="no_ball()">No Ball</button>
+    <button onclick="run_out()">Run Out</button>
+    <button onclick="Byes()">Bye</button>
+    <button onclick="LegByes()">Leg Bye</button>
+  </div>
+
+  <div id="commentary"></div>
+  <br/>
+  <button onclick="window.location.href='scorecard.html'">Go to Scorecard</button>
+
+  <script src="score.js"></script>
+  <script>
+    load_match_data();
+    update_display();
+    window.onload = function() {
+      if (!sessionStorage.getItem('functionCalled')) {
+        initialize_match();
+        sessionStorage.setItem('functionCalled', 'true');
+      }
+    };
+  </script>
+</body>
+</html>

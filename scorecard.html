@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scorecard</title>
+  <link rel="stylesheet" href="scorecard.css">
+</head>
+<body>
+  <h2>Full Scorecard</h2>
+  <button onclick="window.location.href='live.html'">Back to Live Match</button>
+
+  <div id="scorecardContainer"></div>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem("matchDetails"));
+    const container = document.getElementById("scorecardContainer");
+
+    if (!data || !data.innings || data.innings.length === 0) {
+      container.innerHTML = "<p>No match data available.</p>";
+    } else {
+      data.innings.forEach((inning, index) => {
+        const battingTeam = index === 0 ? data.battingFirst : data.bowlingFirst;
+        const bowlingTeam = index === 0 ? data.bowlingFirst : data.battingFirst;
+
+        container.innerHTML += `<h3>Innings ${index + 1}: ${battingTeam} Batting</h3>
+          <table border="1">
+            <thead>
+              <tr><th>Name</th><th>Runs</th><th>Balls Faced</th><th>4s</th><th>6s</th><th>SR</th></tr>
+            </thead>
+            <tbody id="batting${index}"></tbody>
+          </table>
+          <h4>${bowlingTeam} Bowling</h4>
+          <table border="1">
+            <thead>
+              <tr><th>Name</th><th>Overs</th><th>Runs</th><th>Wickets</th><th>Eco</th></tr>
+            </thead>
+            <tbody id="bowling${index}"></tbody>
+          </table><br>`;
+        
+        const batCard = document.getElementById(`batting${index}`);
+        const bowlCard = document.getElementById(`bowling${index}`);
+
+        // Batting stats
+        if (inning.battersStats) {
+          for (const [name, stats] of Object.entries(inning.battersStats)) {
+            const sr = stats.balls ? ((stats.runs / stats.balls) * 100).toFixed(2) : "0.00";
+            batCard.innerHTML += `
+              <tr>
+                <td>${name}${stats.out ? ' (out)' : ''}</td>
+                <td>${stats.runs}</td>
+                <td>${stats.balls}</td>
+                <td>${stats.fours}</td>
+                <td>${stats.sixes}</td>
+                <td>${sr}</td>
+              </tr>`;
+          }
+        } else {
+          batCard.innerHTML = "<tr><td colspan='6'>No data available</td></tr>";
+        }
+
+        // Bowling stats
+        if (inning.bowlersStats) {
+          for (const [name, stats] of Object.entries(inning.bowlersStats)) {
+            const overs = `${Math.floor(stats.balls / 6)}.${stats.balls % 6}`;
+            const econ = stats.balls ? (stats.runs / (stats.balls / 6)).toFixed(2) : "0.00";
+            bowlCard.innerHTML += `
+              <tr>
+                <td>${name}</td>
+                <td>${overs}</td>
+                <td>${stats.runs}</td>
+                <td>${stats.wickets}</td>
+                <td>${econ}</td>
+              </tr>`;
+          }
+        } else {
+          bowlCard.innerHTML = "<tr><td colspan='5'>No data available</td></tr>";
+        }
+      });
+    }
+  </script>
+</body>
+</html>
